@@ -390,8 +390,9 @@ pub struct Hsl {
 
 /// The 8 colour-mixer bands in Lightroom order.
 pub const MIXER_BANDS: [&str; 8] = ["red", "orange", "yellow", "green", "aqua", "blue", "purple", "magenta"];
-/// Centre hue of each band in degrees (sRGB-ish HSV hue).
-pub const MIXER_HUES: [f64; 8] = [0.0, 30.0, 60.0, 120.0, 180.0, 225.0, 270.0, 315.0];
+/// Centre hue of each band in degrees (sRGB-ish HSV hue). Green sits at a yellowish green (not pure
+/// sRGB green, which is a cool OkLCh 142°) so foliage (OkLCh ~115–135°) responds to the Green sliders.
+pub const MIXER_HUES: [f64; 8] = [0.0, 30.0, 60.0, 80.0, 180.0, 225.0, 270.0, 315.0];
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]

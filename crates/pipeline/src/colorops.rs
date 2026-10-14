@@ -379,6 +379,19 @@ mod tests {
     }
 
     #[test]
+    fn green_band_covers_foliage() {
+        let mut s = DevelopSettings::default();
+        s.mixer.green.sat = -100.0;
+        let ops = ColorOps::new(&s);
+        // a mid and a yellowish foliage green both lose most of their chroma with Green saturation at -100
+        for leaf in [[0.03, 0.2, 0.02], [0.2, 0.3, 0.02]] {
+            let c0 = lab_to_lch(oklab_from_2020(leaf));
+            let c1 = lab_to_lch(oklab_from_2020(ops.apply(leaf, 0.0, 0.0)))[1];
+            assert!(c1 < c0[1] * 0.6, "hue {} chroma {} -> {c1}", c0[2], c0[1]);
+        }
+    }
+
+    #[test]
     fn calibration_keeps_white_and_moves_primaries() {
         assert!(calibration_matrix(&Calibration::default()).is_none());
         let cal = Calibration { red_hue: 60.0, blue_sat: -50.0, ..Default::default() };
